@@ -4,7 +4,7 @@ router = express.Router();
 //Importing Schema
 const Customer = require('../model/Customer');
 
-router.get('/', isStaff, (req, res) => {
+router.get('/', (req, res) => {
 	Customer.find()
 		.then((customer) => res.json(customer))
 		.catch((err) => res.status(400).json('Error:' + err));
@@ -35,22 +35,20 @@ router.post('/add', isStaff, (req, res) => {
 		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-router.get('/:id', isStaff, (req, res) => {
+router.get('/:id', (req, res) => {
 	Customer.findById(req.params.id)
 		.then((customer) => res.json(customer))
 		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-router.put('/update/:id', isStaff, (req, res) => {
-	Customer.findById(req.params.id)
+router.put('/update/:id', (req, res) => {
+	const fields = Object.keys(req.body);
+
+	Customer.findByIdAndUpdate(req.params.id)
 		.then((customer) => {
-			customer.name = req.body.name;
-			customer.age = Number(req.body.age);
-			customer.address = req.body.address;
-			customer.fee = Number(req.body.fee);
-			customer.gender = req.body.gender;
-			customer.test = req.body.test;
-			customer.sample = req.body.sample;
+			fields.forEach((field) => {
+				customer[field] = req.body[field];
+			});
 
 			customer
 				.save()
@@ -60,7 +58,7 @@ router.put('/update/:id', isStaff, (req, res) => {
 		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-router.delete('/delete/:id', isStaff, (req, res) => {
+router.delete('/delete/:id', (req, res) => {
 	Customer.findByIdAndDelete(req.params.id)
 		.then((customer) => res.json(customer))
 		.catch((err) => res.status(400).json('Error:' + err));

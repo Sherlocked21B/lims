@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
 	if (!token)
 		return res.status(401).json({ message: 'You are not authorized' });
 	try {
-		const authorization = jwt.verify(token, 'dfdsfsdsdf333');
+		const authorization = jwt.verify(token, process.env.jwt_secretkey);
 		const { id, role } = authorization;
 		if (role === 'admin') {
 			req.userId = id;

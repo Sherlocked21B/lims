@@ -18,7 +18,11 @@ router.post('/register', async (req, res) => {
 	//hasing of the password fileds
 	const hashedPassword = await bcrypt.hash(password, 10);
 	try {
-		const user = new User({ userName, password: hashedPassword, role });
+		const user = new User({
+			userName: userName.toLowerCase(),
+			password: hashedPassword,
+			role,
+		});
 		await user.save();
 		res.send('User created successfully');
 	} catch (e) {
@@ -40,7 +44,10 @@ router.post('/login', async (req, res) => {
 	if (!validatepassword) return res.status(400).send('incorrect password');
 
 	//generating json web tokens
-	const token = jwt.sign({ id: user._id, role: user.role }, 'dfdsfsdsdf333');
+	const token = jwt.sign(
+		{ id: user._id, role: user.role },
+		process.env.jwt_secretkey
+	);
 	res.header('auth-token', token).json({ token });
 });
 

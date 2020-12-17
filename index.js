@@ -8,6 +8,7 @@ donenv.config();
 //importing the routes
 const authRoute = require('./routes/auth');
 const customerRoute = require('./routes/Customer');
+const isStaff = require('./middlewares/isStaff');
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +27,6 @@ connection.once('open', () => {
 
 //middlewares
 app.use('/', authRoute);
-app.use('/customer', customerRoute);
+app.use('/customer', isStaff, customerRoute);
 
 app.listen(3000, () => console.log('server has started'));
