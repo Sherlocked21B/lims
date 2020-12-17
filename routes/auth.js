@@ -40,11 +40,8 @@ router.post('/login', async (req, res) => {
 	if (!validatepassword) return res.status(400).send('incorrect password');
 
 	//generating json web tokens
-	const token = jwt.sign(
-		{ id: user._id, role: user.role },
-		process.env.jwt_secretkey
-	);
-	res.header('auth-token', token).send(token);
+	const token = jwt.sign({ id: user._id, role: user.role }, 'dfdsfsdsdf333');
+	res.header('auth-token', token).json({ token });
 });
 
 module.exports = router;

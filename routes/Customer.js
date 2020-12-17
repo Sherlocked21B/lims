@@ -16,8 +16,8 @@ router.post('/add', isStaff, (req, res) => {
 	const address = req.body.address;
 	const fee = Number(req.body.fee);
 	const gender = req.body.gender;
-	const test = [req.body.test];
-	const sample = [req.body.sample];
+	const test = req.body.test;
+	const sample = req.body.sample;
 
 	const newCustomer = new Customer({
 		name,
@@ -49,8 +49,8 @@ router.put('/update/:id', isStaff, (req, res) => {
 			customer.address = req.body.address;
 			customer.fee = Number(req.body.fee);
 			customer.gender = req.body.gender;
-			customer.test = [req.body.test];
-			customer.sample = [req.body.sample];
+			customer.test = req.body.test;
+			customer.sample = req.body.sample;
 
 			customer
 				.save()
