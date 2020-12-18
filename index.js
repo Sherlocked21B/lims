@@ -15,8 +15,7 @@ const testRoute = require('./routes/Test');
 //milldleware imports
 const isStaff = require('./middlewares/isStaff');
 const isInventoryManager = require('./middlewares/isInventoryManager');
-const isAccountant = require('./middlewares/isAccountant');
-const isAdmin = require('./middlewares/isAdmin');
+const isStafforAccountant = require('./middlewares/isStafforAccountant');
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +23,12 @@ app.use(express.json());
 //connecting to the mongo db
 mongoose.connect(
 	process.env.db_name,
-	{ useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+	{
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	},
 	() => console.log('we are connected to the database')
 );
 
@@ -35,9 +39,9 @@ connection.once('open', () => {
 
 //backend routes
 app.use('/', authRoute);
-app.use('/customer',isStaff,isAccountant, customerRoute);
-app.use('/reagent',isInventoryManager,reagentRoute);
-app.use('/sample',isStaff,sampleRoute);
-app.use('/test',isStaff,testRoute);
+app.use('/customer', isStafforAccountant, customerRoute);
+app.use('/reagent', isInventoryManager, reagentRoute);
+app.use('/sample', isStaff, sampleRoute);
+app.use('/test', isStaff, testRoute);
 
 app.listen(3000, () => console.log('server has started'));

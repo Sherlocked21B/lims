@@ -1,7 +1,7 @@
 const express = require('express');
 router = express.Router();
 //Importing Schema
-const Reagent = require('../model/Reagent');
+const { Reagent } = require('../model/Reagent');
 
 router.get('/', (req, res) => {
 	Reagent.find()
@@ -10,14 +10,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-	const name = req.body.name;
-	const unit = req.body.unit;
-	const volume = Number(req.body.volume);
+	// const name = req.body.name;
+	// const unit = req.body.unit;
+	// const volume = Number(req.body.volume);
+	const { name, unit, volume } = req.body;
 
 	const newReagent = new Reagent({
 		name,
-        unit,
-        volume
+		unit,
+		volume,
 	});
 
 	newReagent
@@ -33,20 +34,27 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/update/:id', (req, res) => {
-	const fields = Object.keys(req.body);
+	// const fields = Object.keys(req.body);
 
-	Reagent.findByIdAndUpdate(req.params.id)
-		.then((reagent) => {
-			fields.forEach((field) => {
-				reagent[field] = req.body[field];
-			});
+	// Reagent.findByIdAndUpdate(req.params.id)
+	// 	.then((reagent) => {
+	// 		fields.forEach((field) => {
+	// 			reagent[field] = req.body[field];
+	// 		});
 
-			reagent
-				.save()
-				.then(() => res.json('Reagent Updated'))
-				.catch((err) => res.status(400).json('Error:' + err));
-		})
-		.catch((err) => res.status(400).json('Error:' + err));
+	// 		reagent
+	// 			.save()
+	// 			.then(() => res.json('Reagent Updated'))
+	// 			.catch((err) => res.status(400).json('Error:' + err));
+	// 	})
+	// 	.catch((err) => res.status(400).json('Error:' + err));
+
+	Reagent.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+		if (err) {
+			return res.status(400).json({ message: err });
+		}
+		res.json(doc);
+	});
 });
 
 router.delete('/delete/:id', (req, res) => {

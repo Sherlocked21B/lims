@@ -9,20 +9,25 @@ router.get('/', (req, res) => {
 		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-<<<<<<< HEAD
-router.post('/add', isStaff, (req, res) => {
-	const firstName = req.body.firstName;
-	const lastName = req.body.lastName;
-=======
 router.post('/add', (req, res) => {
-	const name = req.body.name;
->>>>>>> beb89813f5c7afb5a12ca3eece152124a2e959d4
-	const age = Number(req.body.age);
-	const address = req.body.address;
-	const fee = Number(req.body.fee);
-	const gender = req.body.gender;
-	const test = req.body.test;
-	const sample = req.body.sample;
+	// const firstName = req.body.firstName;
+	// const lastName = req.body.lastName;
+	// const age = Number(req.body.age);
+	// const address = req.body.address;
+	// const fee = Number(req.body.fee);
+	// const gender = req.body.gender;
+	// const test = req.body.test;
+	// const sample = req.body.sample;
+	const {
+		firstName,
+		lastName,
+		age,
+		address,
+		fee,
+		gender,
+		test,
+		sample,
+	} = req.body;
 
 	const newCustomer = new Customer({
 		firstName,
@@ -48,20 +53,28 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/update/:id', (req, res) => {
-	const fields = Object.keys(req.body);
+	// const fields = Object.keys(req.body);
 
-	Customer.findByIdAndUpdate(req.params.id)
-		.then((customer) => {
-			fields.forEach((field) => {
-				customer[field] = req.body[field];
-			});
+	// Customer.findByIdAndUpdate(req.params.id)
+	// 	.then((customer) => {
+	// 		fields.forEach((field) => {
+	// 			customer[field] = req.body[field];
+	// 		});
 
-			customer
-				.save()
-				.then(() => res.json('Customer Updated'))
-				.catch((err) => res.status(400).json('Error:' + err));
-		})
-		.catch((err) => res.status(400).json('Error:' + err));
+	// 		customer
+	// 			.save()
+	// 			.then(() => res.json('Customer Updated'))
+	// 			.catch((err) => res.status(400).json('Error:' + err));
+	// 	})
+	// 	.catch((err) => res.status(400).json('Error:' + err));
+
+	//Refractor in easy method
+	Customer.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+		if (err) {
+			return res.status(400).json({ message: err });
+		}
+		res.json(doc);
+	});
 });
 
 router.delete('/delete/:id', (req, res) => {

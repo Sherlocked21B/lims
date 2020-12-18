@@ -11,14 +11,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-	const name = req.body.name;
-	const amount = Number(req.body.unit);
-	const parameter = Parameter(req.body.volume);
+	// const name = req.body.name;
+	// const amount = Number(req.body.unit);
+	// const parameter = Parameter(req.body.volume);
+	const { name, amount, parameter } = req.body;
 
 	const newTest = new Test({
 		name,
-        amount,
-        parameter
+		amount,
+		parameter,
 	});
 
 	newTest
@@ -34,20 +35,26 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/update/:id', (req, res) => {
-	const fields = Object.keys(req.body);
+	// const fields = Object.keys(req.body);
 
-	Test.findByIdAndUpdate(req.params.id)
-		.then((test) => {
-			fields.forEach((field) => {
-				test[field] = req.body[field];
-			});
+	// Test.findByIdAndUpdate(req.params.id)
+	// 	.then((test) => {
+	// 		fields.forEach((field) => {
+	// 			test[field] = req.body[field];
+	// 		});
 
-			test
-				.save()
-				.then(() => res.json('Test Updated'))
-				.catch((err) => res.status(400).json('Error:' + err));
-		})
-		.catch((err) => res.status(400).json('Error:' + err));
+	// 		test
+	// 			.save()
+	// 			.then(() => res.json('Test Updated'))
+	// 			.catch((err) => res.status(400).json('Error:' + err));
+	// 	})
+	// 	.catch((err) => res.status(400).json('Error:' + err));
+	Test.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+		if (err) {
+			return res.status(400).json({ message: err });
+		}
+		res.json(doc);
+	});
 });
 
 router.delete('/delete/:id', (req, res) => {

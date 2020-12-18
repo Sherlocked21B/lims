@@ -35,7 +35,9 @@ router.post('/login', async (req, res) => {
 	const { error } = loginvalidation(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
 	//validation for unique email
-	const user = await User.findOne({ userName: req.body.userName });
+	const user = await User.findOne({
+		userName: req.body.userName.toLowerCase(),
+	});
 	if (!user) return res.status(400).send('userName doesnot exist');
 	const validatepassword = await bcrypt.compare(
 		req.body.password,
