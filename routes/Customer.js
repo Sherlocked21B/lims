@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', isStaff, (req, res) => {
-	const name = req.body.name;
+	const firstName = req.body.firstName;
+	const lastName = req.body.lastName;
 	const age = Number(req.body.age);
 	const address = req.body.address;
 	const fee = Number(req.body.fee);
@@ -20,7 +21,8 @@ router.post('/add', isStaff, (req, res) => {
 	const sample = req.body.sample;
 
 	const newCustomer = new Customer({
-		name,
+		firstName,
+		lastName,
 		age,
 		address,
 		fee,
