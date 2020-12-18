@@ -19,6 +19,8 @@ router.post('/add', (req, res) => {
 	// const reagent = req.body.reagent;
 	// const userId = req.body.userId;
 
+	//auto conversion of date json to iso(mongo date formate) and json has boolean value .i.e true and false so no need to typecast using Boolean
+
 	const {
 		number,
 		dueDate,

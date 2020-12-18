@@ -14,6 +14,9 @@ router.post('/add', (req, res) => {
 	// const name = req.body.name;
 	// const amount = Number(req.body.unit);
 	// const parameter = Parameter(req.body.volume);
+
+	//auto conversion from string to number by mongoose
+
 	const { name, amount, parameter } = req.body;
 
 	const newTest = new Test({

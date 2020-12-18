@@ -18,6 +18,9 @@ router.post('/add', (req, res) => {
 	// const gender = req.body.gender;
 	// const test = req.body.test;
 	// const sample = req.body.sample;
+
+	//auto conversion from string to number by mongoose
+
 	const {
 		firstName,
 		lastName,

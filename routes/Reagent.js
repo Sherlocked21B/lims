@@ -13,6 +13,9 @@ router.post('/add', (req, res) => {
 	// const name = req.body.name;
 	// const unit = req.body.unit;
 	// const volume = Number(req.body.volume);
+
+	//auto conversion from string to number by mongoose
+
 	const { name, unit, volume } = req.body;
 
 	const newReagent = new Reagent({
