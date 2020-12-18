@@ -8,7 +8,15 @@ donenv.config();
 //importing the routes
 const authRoute = require('./routes/auth');
 const customerRoute = require('./routes/Customer');
+const reagentRoute = require('./routes/Reagent');
+const sampleRoute = require('./routes/Sample');
+const testRoute = require('./routes/Test');
+
+//milldleware imports
 const isStaff = require('./middlewares/isStaff');
+const isInventoryManager = require('./middlewares/isInventoryManager');
+const isAccountant = require('./middlewares/isAccountant');
+const isAdmin = require('./middlewares/isAdmin');
 
 app.use(cors());
 app.use(express.json());
@@ -25,8 +33,11 @@ connection.once('open', () => {
 	console.log('MongoDB Connection established SUcessfully');
 });
 
-//middlewares
+//backend routes
 app.use('/', authRoute);
-app.use('/customer', isStaff, customerRoute);
+app.use('/customer',isStaff,isAccountant, customerRoute);
+app.use('/reagent',isInventoryManager,reagentRoute);
+app.use('/sample',isStaff,sampleRoute);
+app.use('/test',isStaff,testRoute);
 
 app.listen(3000, () => console.log('server has started'));

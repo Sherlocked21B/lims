@@ -1,5 +1,4 @@
 const express = require('express');
-const isStaff = require('../middlewares/isStaff');
 router = express.Router();
 //Importing Schema
 const Customer = require('../model/Customer');
@@ -10,9 +9,14 @@ router.get('/', (req, res) => {
 		.catch((err) => res.status(400).json('Error:' + err));
 });
 
+<<<<<<< HEAD
 router.post('/add', isStaff, (req, res) => {
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
+=======
+router.post('/add', (req, res) => {
+	const name = req.body.name;
+>>>>>>> beb89813f5c7afb5a12ca3eece152124a2e959d4
 	const age = Number(req.body.age);
 	const address = req.body.address;
 	const fee = Number(req.body.fee);
