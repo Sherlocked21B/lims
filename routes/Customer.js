@@ -21,7 +21,7 @@ router.post("/add", (req, res) => {
 
   //auto conversion from string to number by mongoose
 
-  const { firstName, lastName, age, address, gender } = req.body;
+  const { firstName, lastName, age, address, gender,contactNumber } = req.body;
 
   const newCustomer = new Customer({
     firstName,
@@ -29,6 +29,7 @@ router.post("/add", (req, res) => {
     age,
     address,
     gender,
+    contactNumber
   });
 
   newCustomer
