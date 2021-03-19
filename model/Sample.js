@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const { reagentSchema } = require("./Reagent");
 
 const sampleSchema = new mongoose.Schema({
-  number: {
+  sampleNo: {
     type: String,
     required: true,
   },
@@ -15,7 +14,7 @@ const sampleSchema = new mongoose.Schema({
     required: true,
   },
   paymentStatus: {
-    type: Boolean,
+    type: Number,
     required: true,
   },
   testName: {
@@ -24,9 +23,8 @@ const sampleSchema = new mongoose.Schema({
   },
   status: {
     type: Boolean,
-    required: true,
+    default: false,
   },
-  reagent: [reagentSchema],
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
 });
 

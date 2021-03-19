@@ -10,18 +10,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-  // const firstName = req.body.firstName;
-  // const lastName = req.body.lastName;
-  // const age = Number(req.body.age);
-  // const address = req.body.address;
-  // const fee = Number(req.body.fee);
-  // const gender = req.body.gender;
-  // const test = req.body.test;
-  // const sample = req.body.sample;
-
-  //auto conversion from string to number by mongoose
-
-  const { firstName, lastName, age, address, gender,contactNumber } = req.body;
+  const { firstName, lastName, age, address, gender, contactNumber } = req.body;
 
   const newCustomer = new Customer({
     firstName,
@@ -29,7 +18,7 @@ router.post("/add", (req, res) => {
     age,
     address,
     gender,
-    contactNumber
+    contactNumber,
   });
 
   newCustomer
@@ -45,22 +34,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/update/:id", (req, res) => {
-  // const fields = Object.keys(req.body);
-
-  // Customer.findByIdAndUpdate(req.params.id)
-  // 	.then((customer) => {
-  // 		fields.forEach((field) => {
-  // 			customer[field] = req.body[field];
-  // 		});
-
-  // 		customer
-  // 			.save()
-  // 			.then(() => res.json('Customer Updated'))
-  // 			.catch((err) => res.status(400).json('Error:' + err));
-  // 	})
-  // 	.catch((err) => res.status(400).json('Error:' + err));
-
-  //Refractor in easy method
   Customer.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
     if (err) {
       return res.status(400).json({ message: err });
@@ -76,8 +49,16 @@ router.delete("/delete/:id", (req, res) => {
 });
 
 router.get("/search/:query", (req, res) => {
-  const term = RegExp(`${req.params.query}`, "i");
-  Customer.find({ firstName: term })
+  const term = RegExp(`${req.params.query}`);
+  Customer.find({
+    $expr: {
+      $regexMatch: {
+        input: { $concat: ["$firstName", " ", "$lastName"] },
+        regex: term, //Your text search here
+        options: "i",
+      },
+    },
+  })
     .then((customers) => res.json(customers))
     .catch((err) => res.status(400).json("Error:" + err));
 });
