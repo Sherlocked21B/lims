@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const parameterSchema = new mongoose.Schema({
-	name: {
+	parameters: {
 		type: String,
 		required: true,
 	},
-	unit: {
+	units: {
 		type: String,
 		required: true,
 	},
-	reference: {
+	referenceRange: {
 		type: String,
 		required: true,
 	},
