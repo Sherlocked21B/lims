@@ -56,7 +56,7 @@ router.post("/add", (req, res) => {
 });
 
 router.get("/find/:id", (req, res) => {
-  Sample.findById(req.params.id)
+  Sample.find({ customerId: req.params.id })
     .then((sample) => res.json(sample))
     .catch((err) => res.status(400).json("Error:" + err));
 });
