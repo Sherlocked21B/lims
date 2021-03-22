@@ -22,6 +22,7 @@ router.post("/add", (req, res) => {
   //auto conversion of date json to iso(mongo date formate) and json has boolean value .i.e true and false so no need to typecast using Boolean
 
   const {
+    customerName,
     sampleNo,
     dueDate,
     collectedBy,
@@ -31,6 +32,7 @@ router.post("/add", (req, res) => {
   } = req.body;
 
   const newSample = new Sample({
+    customerName,
     sampleNo,
     dueDate,
     collectedBy,
@@ -53,7 +55,7 @@ router.post("/add", (req, res) => {
   });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/find/:id", (req, res) => {
   Sample.findById(req.params.id)
     .then((sample) => res.json(sample))
     .catch((err) => res.status(400).json("Error:" + err));
@@ -92,6 +94,23 @@ router.delete("/delete/:id", (req, res) => {
   Sample.findByIdAndDelete(req.params.id)
     .then((sample) => res.json(sample))
     .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.get("/paginate", (req, res) => {
+  let page = req.query.page;
+  let limit = req.query.limit;
+
+  const options = {
+    offset: page ? page * limit : 0,
+    limit: limit ? limit : 20,
+  };
+
+  Sample.paginate({ status: false }, options, (err, result) => {
+    if (err) {
+      return res.status(400).json({ message: err });
+    }
+    res.json({ rows: result.docs, total: result.totalDocs });
+  });
 });
 
 module.exports = router;

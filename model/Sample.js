@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const sampleSchema = new mongoose.Schema({
   sampleNo: {
@@ -25,7 +26,13 @@ const sampleSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  customerName: {
+    type: String,
+    required: true,
+  },
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
 });
+
+sampleSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("Sample", sampleSchema);
