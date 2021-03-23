@@ -1,20 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
-const reagentSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true,
-	},
-	unit: {
-		type: String,
-		required: true,
-	},
-	volume: {
-		type: Number,
-		required: true,
-	},
-});
-
-const Model = mongoose.model('Reagent', reagentSchema);
+const reagentSchema = new mongoose.Schema(
+  {
+    reagentName: {
+      type: String,
+      required: true,
+    },
+    unit: {
+      type: String,
+      required: true,
+    },
+    volume: {
+      type: Number,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+reagentSchema.plugin(mongoosePaginate);
+const Model = mongoose.model("Reagent", reagentSchema);
 
 module.exports = { reagentSchema: reagentSchema, Reagent: Model };

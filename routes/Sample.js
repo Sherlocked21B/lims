@@ -54,7 +54,7 @@ router.post("/add", (req, res) => {
     res.json({ message: "Sample added!", data: obj });
   });
 });
-
+//route to find sample from customer id
 router.get("/find/:id", (req, res) => {
   Sample.find({ customerId: req.params.id })
     .then((sample) => res.json(sample))
