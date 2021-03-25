@@ -16,7 +16,7 @@ const reagentSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: { createdAt: "createdAt", updatedAt: false } }
 );
 reagentSchema.plugin(mongoosePaginate);
 const Model = mongoose.model("Reagent", reagentSchema);
