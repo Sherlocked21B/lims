@@ -59,6 +59,19 @@ router.put("/update/:id", (req, res) => {
   );
 });
 
+router.put("/import/:id", (req, res) => {
+  Reagent.findByIdAndUpdate(
+    req.params.id,
+    { $inc: { volume: -req.body.volume } },
+    (err, doc) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
+      res.json("Reagent Imported");
+    }
+  );
+});
+
 router.get("/search/:query", (req, res) => {
   const term = RegExp(`${req.params.query}`);
   Reagent.find({
