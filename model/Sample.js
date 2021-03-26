@@ -10,6 +10,10 @@ const sampleSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  created_at:{
+    type:Date,
+    default: new Date (new Date().toISOString().substring(0, 10)).toISOString(),
+  },
   collectedBy: {
     type: String,
     required: true,
@@ -31,7 +35,9 @@ const sampleSchema = new mongoose.Schema({
     required: true,
   },
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
-});
+},
+
+);
 
 sampleSchema.plugin(mongoosePaginate);
 
