@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
   const options = {
     offset: page ? page * limit : 0,
     limit: limit ? limit : 20,
-    sort: { createdAt: -1 },
+    sort: {volume: 1 },
   };
 
   Reagent.paginate({}, options, (err, result) => {
@@ -62,7 +62,7 @@ router.put("/update/:id", (req, res) => {
 router.put("/import/:id", (req, res) => {
   Reagent.findByIdAndUpdate(
     req.params.id,
-    { $inc: { volume: -req.body.volume } },
+    { $inc: { volume: req.body.volume } },
     (err, doc) => {
       if (err) {
         return res.status(400).json({ message: err });
