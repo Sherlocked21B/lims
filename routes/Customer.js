@@ -4,9 +4,20 @@ router = express.Router();
 const Customer = require("../model/Customer");
 
 router.get("/", (req, res) => {
-  Customer.find()
-    .then((customer) => res.json(customer))
-    .catch((err) => res.status(400).json("Error:" + err));
+  let page = req.query.page;
+  let limit = req.query.limit;
+
+  const options = {
+    offset: page ? page * limit : 0,
+    limit: limit ? limit : 20,
+  };
+
+  Customer.paginate({}, options, (err, result) => {
+    if (err) {
+      return res.status(400).json({ message: err });
+    }
+    res.json({ rows: result.docs, total: result.totalDocs, page: result.page });
+  });
 });
 
 router.post("/add", (req, res) => {
@@ -21,10 +32,11 @@ router.post("/add", (req, res) => {
     contactNumber,
   });
 
-  newCustomer
-    .save()
-    .then(() => res.json("Customer Added"))
-    .catch((err) => res.status(400).json("Error:" + err));
+  newCustomer.save(function (err, obj) {
+    if (err) return res.status(400).json(err.message);
+
+    res.json({ message: "Reagent added!", data: obj });
+  });
 });
 
 router.get("/:id", (req, res) => {
@@ -34,12 +46,17 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/update/:id", (req, res) => {
-  Customer.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
-    if (err) {
-      return res.status(400).json({ message: err });
+  Customer.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
+      res.json(doc);
     }
-    res.json(doc);
-  });
+  );
 });
 
 router.delete("/delete/:id", (req, res) => {
