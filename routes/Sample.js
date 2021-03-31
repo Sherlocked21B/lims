@@ -4,27 +4,35 @@ router = express.Router();
 const Sample = require("../model/Sample");
 
 router.get("/", (req, res) => {
-let page = req.query.page;
-let limit = req.query.limit;
-let sample = req.query.sampleId ;
-let customer = req.query.Customer;
-let date = req.query.Date;
+  let page = req.query.page;
+  let limit = req.query.limit;
+  let sample = req.query.sampleId;
+  let customer = req.query.Customer;
+  let date = req.query.Date;
 
-let options ={
-  offset : page ? page*limit:0,
-  limit : limit? limit:20
-};
+  let options = {
+    offset: page ? page * limit : 0,
+    limit: limit ? limit : 20,
+  };
 
-Sample.paginate(
-  sample ?  ({sampleNo : sample} ): 
-  (customer && date ? ({customerId : customer,created_at : date}):
-  (customer ? ({customerId : customer}):(date?({created_at:date}):{})))
-  , options, (err, result) => {
-  if (err) {
-    return res.status(400).json({ message: err });
-  }
-  res.json({ rows: result.docs, total: result.totalDocs});
-});
+  Sample.paginate(
+    sample
+      ? { sampleNo: sample }
+      : customer && date
+      ? { customerId: customer, created_at: date }
+      : customer
+      ? { customerId: customer }
+      : date
+      ? { created_at: date }
+      : {},
+    options,
+    (err, result) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
+      res.json({ rows: result.docs, total: result.totalDocs });
+    }
+  );
 });
 
 router.post("/add", (req, res) => {
@@ -121,6 +129,7 @@ router.get("/paginate", (req, res) => {
   const options = {
     offset: page ? page * limit : 0,
     limit: limit ? limit : 20,
+    sort: { createdAt: -1 },
   };
 
   Sample.paginate({ status: false }, options, (err, result) => {
