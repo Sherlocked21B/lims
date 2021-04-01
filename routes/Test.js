@@ -5,91 +5,91 @@ const Test = require("../model/Test");
 const Parameter = require("../model/Parameter");
 
 router.get("/", (req, res) => {
-  let page = req.query.page;
-  let limit = req.query.limit;
+	let page = req.query.page;
+	let limit = req.query.limit;
 
-  const options = {
-    offset: page ? page * limit : 0,
-    limit: limit ? limit : 20,
-  };
+	const options = {
+		offset: page ? page * limit : 0,
+		limit: limit ? limit : 20,
+	};
 
-  Test.paginate({}, options, (err, result) => {
-    if (err) {
-      return res.status(400).json({ message: err });
-    }
-    res.json({ rows: result.docs, total: result.totalDocs, page: result.page });
-  });
+	Test.paginate({}, options, (err, result) => {
+		if (err) {
+			return res.status(400).json({ message: err });
+		}
+		res.json({ rows: result.docs, total: result.totalDocs, page: result.page });
+	});
 });
 
 router.post("/add", (req, res) => {
-  // const name = req.body.name;
-  // const amount = Number(req.body.unit);
-  // const parameter = Parameter(req.body.volume);
+	// const name = req.body.name;
+	// const amount = Number(req.body.unit);
+	// const parameter = Parameter(req.body.volume);
 
-  //auto conversion from string to number by mongoose
+	//auto conversion from string to number by mongoose
 
-  const { name, amount, parameter } = req.body;
+	const { name, amount, parameter } = req.body;
 
-  const newTest = new Test({
-    name,
-    amount,
-    parameter,
-  });
+	const newTest = new Test({
+		name,
+		amount,
+		parameter,
+	});
 
-  newTest
-    .save()
-    .then(() => res.json("Test Added"))
-    .catch((err) => res.status(400).json("Error:" + err));
+	newTest
+		.save()
+		.then(() => res.json("Test Added"))
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
 router.get("/:id", (req, res) => {
-  Test.findById(req.params.id)
-    .then((test) => res.json(test))
-    .catch((err) => res.status(400).json("Error:" + err));
+	Test.findById(req.params.id)
+		.then((test) => res.json(test))
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
 router.put("/update/:id", (req, res) => {
-  // const fields = Object.keys(req.body);
+	// const fields = Object.keys(req.body);
 
-  // Test.findByIdAndUpdate(req.params.id)
-  // 	.then((test) => {
-  // 		fields.forEach((field) => {
-  // 			test[field] = req.body[field];
-  // 		});
+	// Test.findByIdAndUpdate(req.params.id)
+	// 	.then((test) => {
+	// 		fields.forEach((field) => {
+	// 			test[field] = req.body[field];
+	// 		});
 
-  // 		test
-  // 			.save()
-  // 			.then(() => res.json('Test Updated'))
-  // 			.catch((err) => res.status(400).json('Error:' + err));
-  // 	})
-  // 	.catch((err) => res.status(400).json('Error:' + err));
-  Test.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
-    if (err) {
-      return res.status(400).json({ message: err });
-    }
-    res.json("Test Updated");
-  });
+	// 		test
+	// 			.save()
+	// 			.then(() => res.json('Test Updated'))
+	// 			.catch((err) => res.status(400).json('Error:' + err));
+	// 	})
+	// 	.catch((err) => res.status(400).json('Error:' + err));
+	Test.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+		if (err) {
+			return res.status(400).json({ message: err });
+		}
+		res.json("Test Updated");
+	});
 });
 
 router.get("/search/:query", (req, res) => {
-  const term = RegExp(`${req.params.query}`);
-  Test.find({
-    $expr: {
-      $regexMatch: {
-        input: "$name",
-        regex: term, //Your text search here
-        options: "i",
-      },
-    },
-  })
-    .then((customers) => res.json(customers))
-    .catch((err) => res.status(400).json("Error:" + err));
+	const term = RegExp(`${req.params.query}`);
+	Test.find({
+		$expr: {
+			$regexMatch: {
+				input: "$name",
+				regex: term, //Your text search here
+				options: "i",
+			},
+		},
+	})
+		.then((test) => res.json(test))
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
 router.delete("/delete/:id", (req, res) => {
-  Test.findByIdAndDelete(req.params.id)
-    .then((test) => res.json(test))
-    .catch((err) => res.status(400).json("Error:" + err));
+	Test.findByIdAndDelete(req.params.id)
+		.then((test) => res.json(test))
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
 module.exports = router;
