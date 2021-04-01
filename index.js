@@ -16,34 +16,35 @@ const usedReagent = require("./routes/usedReagent");
 
 //milldleware imports
 const isStaff = require("./middlewares/isStaff");
-const isInventoryManager = require("./middlewares/isInventoryManager");
+
 const isStafforAccountant = require("./middlewares/isStafforAccountant");
+const isStafforInventory = require("./middlewares/isStafforInventory");
 
 app.use(cors());
 app.use(express.json());
 
 //connecting to the mongo db
 mongoose.connect(
-	process.env.db_name,
-	{
-		useNewUrlParser: true,
-		useCreateIndex: true,
-		useUnifiedTopology: true,
-		useFindAndModify: false,
-	},
-	() => console.log("we are connected to the database"),
+  process.env.db_name,
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  },
+  () => console.log("we are connected to the database")
 );
 
 const connection = mongoose.connection;
 connection.once("open", () => {
-	console.log("MongoDB Connection established SUcessfully");
+  console.log("MongoDB Connection established SUcessfully");
 });
 
 //backend routes
 app.use("/", authRoute);
 app.use("/customer", isStafforAccountant, customerRoute);
-app.use("/reagent", isInventoryManager, reagentRoute);
-app.use("/sample", isStaff, sampleRoute);
+app.use("/reagent", isStafforInventory, reagentRoute);
+app.use("/sample", isStafforAccountant, sampleRoute);
 app.use("/test", isStaff, testRoute);
 app.use("/result", isStaff, resultRoute);
 app.use("/usedReagent", isStaff, usedReagent);
