@@ -2,6 +2,7 @@ const express = require("express");
 router = express.Router();
 //Importing Schema
 const Sample = require("../model/Sample");
+const isStaff = require("../middlewares/isStaff");
 
 router.get("/", (req, res) => {
   let page = req.query.page;
@@ -35,7 +36,7 @@ router.get("/", (req, res) => {
   );
 });
 
-router.post("/add", (req, res) => {
+router.post("/add", isStaff, (req, res) => {
   // const number = req.body.name;
   // const dueDate = Date(req.body.dueDate);
   // const collectedBy = req.body.collectedBy;
@@ -81,13 +82,13 @@ router.post("/add", (req, res) => {
   });
 });
 //route to find sample from customer id
-router.get("/find/:id", (req, res) => {
+router.get("/find/:id", isStaff, (req, res) => {
   Sample.find({ customerId: req.params.id })
     .then((sample) => res.json(sample))
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.put("/update/:id", (req, res) => {
+router.put("/update/:id", isStaff, (req, res) => {
   // const fields = Object.keys(req.body);
 
   // Sample.findByIdAndUpdate(req.params.id)
@@ -116,7 +117,7 @@ router.put("/update/:id", (req, res) => {
   );
 });
 
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", isStaff, (req, res) => {
   Sample.findByIdAndDelete(req.params.id)
     .then((sample) => res.json(sample))
     .catch((err) => res.status(400).json("Error:" + err));
