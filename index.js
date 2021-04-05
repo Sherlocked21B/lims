@@ -13,6 +13,7 @@ const sampleRoute = require("./routes/Sample");
 const testRoute = require("./routes/Test");
 const resultRoute = require("./routes/Result");
 const usedReagent = require("./routes/usedReagent");
+const equipmentRoute = require("./routes/Equipment");
 
 //milldleware imports
 const isStaff = require("./middlewares/isStaff");
@@ -25,19 +26,19 @@ app.use(express.json());
 
 //connecting to the mongo db
 mongoose.connect(
-  process.env.db_name,
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  },
-  () => console.log("we are connected to the database")
+	process.env.db_name,
+	{
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	},
+	() => console.log("we are connected to the database"),
 );
 
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("MongoDB Connection established SUcessfully");
+	console.log("MongoDB Connection established SUcessfully");
 });
 
 //backend routes
@@ -48,5 +49,6 @@ app.use("/sample", isStafforAccountant, sampleRoute);
 app.use("/test", isStaff, testRoute);
 app.use("/result", isStaff, resultRoute);
 app.use("/usedReagent", isStaff, usedReagent);
+app.use("/equipment", isStafforAccountant, equipmentRoute);
 
 app.listen(5000, () => console.log("server has started"));
