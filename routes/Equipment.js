@@ -27,7 +27,7 @@ router.post("/add", isInventoryManager, (req, res) => {
 
 	const { equipmentName, description, quantity } = req.body;
 
-	const newEquipment = new Reagent({
+	const newEquipment = new Equipment({
 		equipmentName,
 		description,
 		quantity,
@@ -63,7 +63,7 @@ router.put("/update/:id", isInventoryManager, (req, res) => {
 router.put("/import/:id", isInventoryManager, (req, res) => {
 	Equipment.findByIdAndUpdate(
 		req.params.id,
-		{ $inc: { volume: req.body.volume } },
+		{ $inc: { quantity: req.body.quantity } },
 		(err, doc) => {
 			if (err) {
 				return res.status(400).json({ message: err });
@@ -76,7 +76,7 @@ router.put("/import/:id", isInventoryManager, (req, res) => {
 router.put("/use/:id", isInventoryManager, (req, res) => {
 	Equipment.findByIdAndUpdate(
 		req.params.id,
-		{ $inc: { volume: -req.body.volume } },
+		{ $inc: { quantity: -req.body.quantity } },
 		(err, doc) => {
 			if (err) {
 				return res.status(400).json({ message: err });
