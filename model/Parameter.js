@@ -9,8 +9,8 @@ const parameterSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	referenceRange: {
-		type: String,
+	cost: {
+		type: Number,
 		required: true,
 	},
 });
