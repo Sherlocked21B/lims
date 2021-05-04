@@ -6,6 +6,7 @@ const donenv = require('dotenv');
 donenv.config();
 
 //importing the routes
+const animalRoute = require("./routes/animal");
 const authRoute = require('./routes/auth');
 const customerRoute = require('./routes/Customer');
 const reagentRoute = require('./routes/Reagent');
@@ -38,6 +39,7 @@ mongoose.connect(
 );
 
 const connection = mongoose.connection;
+
 connection.once('open', () => {
 	console.log('MongoDB Connection established SUcessfully');
 });
@@ -52,5 +54,6 @@ app.use('/result', isStaff, resultRoute);
 app.use('/usedReagent', isStaff, usedReagent);
 app.use('/equipment', isStafforAccountant, equipmentRoute);
 app.use('/testRequest', isStaff, testRequestRoute);
+app.use("/animal", isStaff, animalRoute);
 
 app.listen(5000, () => console.log('server has started'));
