@@ -14,10 +14,10 @@ const testRoute = require("./routes/Test");
 const resultRoute = require("./routes/Result");
 const usedReagent = require("./routes/usedReagent");
 const equipmentRoute = require("./routes/Equipment");
+const animalRoute = require("./routes/animal");
 
 //milldleware imports
 const isStaff = require("./middlewares/isStaff");
-
 const isStafforAccountant = require("./middlewares/isStafforAccountant");
 const isStafforInventory = require("./middlewares/isStafforInventory");
 
@@ -38,7 +38,7 @@ mongoose.connect(
 
 const connection = mongoose.connection;
 connection.once("open", () => {
-	console.log("MongoDB Connection established SUcessfully");
+	console.log("MongoDB Connection established Sucessfully");
 });
 
 //backend routes
@@ -50,5 +50,6 @@ app.use("/test", isStaff, testRoute);
 app.use("/result", isStaff, resultRoute);
 app.use("/usedReagent", isStaff, usedReagent);
 app.use("/equipment", isStafforAccountant, equipmentRoute);
+app.use("/animal", isStaff, animalRoute);
 
 app.listen(5000, () => console.log("server has started"));
