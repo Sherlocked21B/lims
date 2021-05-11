@@ -10,10 +10,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-	const { animals } = req.body;
+	const { category, species } = req.body;
 
 	const newAnimal = new Animal({
-		animals,
+		category,
+		species,
 	});
 
 	newAnimal
@@ -30,11 +31,20 @@ router.get("/:id", (req, res) => {
 		.catch((err) => res.status(400).json("Error:" + err));
 });
 
-// router.get("/find/:id", (req, res) => {
-// 	Animal.find({ sampleId: req.params.id })
-// 		.then((reagents) => res.json(reagents))
-// 		.catch((err) => res.status(400).json("Error:" + err));
-// });
+router.get("/search/:query", (req, res) => {
+	const term = RegExp(`${req.params.query}`);
+	Reagent.find({
+		$expr: {
+			$regexMatch: {
+				input: "$category",
+				regex: term, //Your text search here
+				options: "i",
+			},
+		},
+	})
+		.then((animal) => res.json(animal))
+		.catch((err) => res.status(400).json("Error:" + err));
+});
 
 router.put("/update/:id", (req, res) => {
 	Animal.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
