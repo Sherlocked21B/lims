@@ -3,20 +3,21 @@ router = express.Router();
 const Reference = require('../model/Reference');
 
 router.get('/', (req, res) => {
-	Reference.find()
+	let testName = req.query.testName;
+	let animalName = req.query.animalName;
+	Reference.find({ testName: testName, animalName: animalName })
 		.then((result) => res.json(result))
-		.catch((err) =>
-			res.status(400).json({ message: 'Error occured', error: err })
-		);
+		.catch((err) => {
+			console.log(err);
+			res.status(400).send(err);
+		});
 });
 
 router.post('/add', (req, res) => {
-	const { testId, testName, animalId, animalName, refTable } = req.body;
+	const { testName, animalName, refTable } = req.body;
 
 	const newReference = new Reference({
-		testId,
 		testName,
-		animalId,
 		animalName,
 		refTable,
 	});
