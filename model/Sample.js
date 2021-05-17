@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const mongoosePaginate = require("mongoose-paginate-v2");
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const sampleSchema = new mongoose.Schema(
 	{
@@ -7,25 +7,41 @@ const sampleSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		dueDate: {
+		samplingDate: {
 			type: Date,
 			required: true,
 		},
 		created_at: {
 			type: Date,
 			default: new Date(
-				new Date().toISOString().substring(0, 10),
+				new Date().toISOString().substring(0, 10)
 			).toISOString(),
 		},
-		collectedBy: {
+		sampleSubmittedBy: {
 			type: String,
 			required: true,
 		},
-		paymentStatus: {
+		petName: {
+			type: String,
+			required: true,
+		},
+		category: {
+			type: String,
+			required: true,
+		},
+		animal: {
+			type: String,
+			required: true,
+		},
+		breed: {
+			type: String,
+			required: true,
+		},
+		age: {
 			type: Number,
 			required: true,
 		},
-		testName: {
+		gender: {
 			type: String,
 			required: true,
 		},
@@ -37,11 +53,11 @@ const sampleSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
+		customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 sampleSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Sample", sampleSchema);
+module.exports = mongoose.model('Sample', sampleSchema);
