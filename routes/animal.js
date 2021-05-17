@@ -46,13 +46,18 @@ router.get('/search/:query', (req, res) => {
 		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-router.put('/update/:id', (req, res) => {
-	Animal.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
-		if (err) {
-			return res.status(400).json({ message: err });
-		}
-		res.json(doc);
-	});
+router.put("/update/:id", (req, res) => {
+	Animal.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true },
+		(err, doc) => {
+			if (err) {
+				return res.status(400).json({ message: err });
+			}
+			res.json(doc);
+		},
+	);
 });
 
 router.delete('/delete/:id', (req, res) => {
