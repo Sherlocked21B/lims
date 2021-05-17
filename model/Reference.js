@@ -11,11 +11,11 @@ const referenceSchema = new mongoose.Schema({
 	},
 	refTable: [
 		{
-			parameter: {
+			parameters: {
 				type: String,
 				required: true,
 			},
-			unit: {
+			units: {
 				type: String,
 				required: true,
 			},
@@ -25,16 +25,6 @@ const referenceSchema = new mongoose.Schema({
 			},
 		},
 	],
-	animalId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Animal',
-		required: true,
-	},
-	testId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Test',
-		required: true,
-	},
 });
 
 module.exports = mongoose.model('Reference', referenceSchema);
