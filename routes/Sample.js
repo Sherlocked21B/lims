@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 router = express.Router();
 //Importing Schema
-const Sample = require("../model/Sample");
-const isStaff = require("../middlewares/isStaff");
+const Sample = require('../model/Sample');
+const isStaff = require('../middlewares/isStaff');
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
 	let page = req.query.page;
 	let limit = req.query.limit;
 	let sample = req.query.sampleId;
@@ -33,99 +33,95 @@ router.get("/", (req, res) => {
 				return res.status(400).json({ message: err });
 			}
 			res.json({ rows: result.docs, total: result.totalDocs });
-		},
+		}
 	);
 });
 
-router.post("/add", isStaff, (req, res) => {
-  // const number = req.body.name;
-  // const dueDate = Date(req.body.dueDate);
-  // const collectedBy = req.body.collectedBy;
-  // const paymentStatus = Boolean(req.body.paymentStatus);
-  // const testName = req.body.testName;
-  // const status = Boolean(req.body.status);
-  // const reagent = req.body.reagent;
-  // const userId = req.body.userId;
+router.post('/add', isStaff, (req, res) => {
+	const {
+		customerName,
+		sampleNo,
+		samplingDate,
+		sampleSubmittedBy,
+		category,
+		animal,
+		customerId,
+		breed,
+		age,
+		gender,
+		petName,
+	} = req.body;
 
-  //auto conversion of date json to iso(mongo date formate) and json has boolean value .i.e true and false so no need to typecast using Boolean
+	const newSample = new Sample({
+		customerName,
+		sampleNo,
+		samplingDate,
+		sampleSubmittedBy,
+		category,
+		animal,
+		customerId,
+		breed,
+		age,
+		gender,
+		petName,
+	});
 
-  const {
-    customerName,
-    sampleNo,
-    dueDate,
-    collectedBy,
-    paymentStatus,
-    testName,
-    customerId,
-  } = req.body;
+	// newSample
+	//   .save()
+	//   .then(() => res.json("Sample Added"))
+	//   .catch((err) => {
+	//     console.log(err);
+	//     return res.status(400).json(err.message);
+	//   });
+	newSample.save(function (err, obj) {
+		if (err) return res.status(400).json(err.message);
 
-  const newSample = new Sample({
-    customerName,
-    sampleNo,
-    dueDate,
-    collectedBy,
-    paymentStatus,
-    testName,
-    customerId,
-  });
-
-  // newSample
-  //   .save()
-  //   .then(() => res.json("Sample Added"))
-  //   .catch((err) => {
-  //     console.log(err);
-  //     return res.status(400).json(err.message);
-  //   });
-  newSample.save(function (err, obj) {
-    if (err) return res.status(400).json(err.message);
-
-    res.json({ message: "Sample added!", data: obj });
-  });
+		res.json({ message: 'Sample added!', data: obj });
+	});
 });
 //route to find sample from customer id
-router.get("/find/:id", isStaff, (req, res) => {
-  Sample.find({ customerId: req.params.id })
-    .then((sample) => res.json(sample))
-    .catch((err) => res.status(400).json("Error:" + err));
+router.get('/find/:id', isStaff, (req, res) => {
+	Sample.find({ customerId: req.params.id })
+		.then((sample) => res.json(sample))
+		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-router.put("/update/:id", isStaff, (req, res) => {
-  // const fields = Object.keys(req.body);
+router.put('/update/:id', isStaff, (req, res) => {
+	// const fields = Object.keys(req.body);
 
-  // Sample.findByIdAndUpdate(req.params.id)
-  // 	.then((sample) => {
-  // 		fields.forEach((field) => {
-  // 			sample[field] = req.body[field];
-  // 		});
+	// Sample.findByIdAndUpdate(req.params.id)
+	// 	.then((sample) => {
+	// 		fields.forEach((field) => {
+	// 			sample[field] = req.body[field];
+	// 		});
 
-  // 		sample
-  // 			.save()
-  // 			.then(() => res.json('Sample Updated'))
-  // 			.catch((err) => res.status(400).json('Error:' + err));
-  // 	})
-  // 	.catch((err) => res.status(400).json('Error:' + err));
+	// 		sample
+	// 			.save()
+	// 			.then(() => res.json('Sample Updated'))
+	// 			.catch((err) => res.status(400).json('Error:' + err));
+	// 	})
+	// 	.catch((err) => res.status(400).json('Error:' + err));
 
-  Sample.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ message: err });
-      }
-      res.json(doc);
-    }
-  );
+	Sample.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true },
+		(err, doc) => {
+			if (err) {
+				return res.status(400).json({ message: err });
+			}
+			res.json(doc);
+		}
+	);
 });
 
-router.delete("/delete/:id", isStaff, (req, res) => {
-  Sample.findByIdAndDelete(req.params.id)
-    .then((sample) => res.json(sample))
-    .catch((err) => res.status(400).json("Error:" + err));
-
+router.delete('/delete/:id', isStaff, (req, res) => {
+	Sample.findByIdAndDelete(req.params.id)
+		.then((sample) => res.json(sample))
+		.catch((err) => res.status(400).json('Error:' + err));
 });
 
-router.get("/paginate", (req, res) => {
+router.get('/paginate', (req, res) => {
 	let page = req.query.page;
 	let limit = req.query.limit;
 
