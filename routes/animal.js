@@ -33,7 +33,7 @@ router.get("/:id", (req, res) => {
 
 router.get("/search/:query", (req, res) => {
 	const term = RegExp(`${req.params.query}`);
-	Reagent.find({
+	Animal.find({
 		$expr: {
 			$regexMatch: {
 				input: "$category",
@@ -47,12 +47,17 @@ router.get("/search/:query", (req, res) => {
 });
 
 router.put("/update/:id", (req, res) => {
-	Animal.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
-		if (err) {
-			return res.status(400).json({ message: err });
-		}
-		res.json(doc);
-	});
+	Animal.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true },
+		(err, doc) => {
+			if (err) {
+				return res.status(400).json({ message: err });
+			}
+			res.json(doc);
+		},
+	);
 });
 
 router.delete("/delete/:id", (req, res) => {
