@@ -8,6 +8,10 @@ const testSchema = new mongoose.Schema({
 		required: true,
 	},
 	parameter: [parameter],
+	package: {
+		type: Boolean,
+		default: false,
+	},
 });
 testSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Test', testSchema);
