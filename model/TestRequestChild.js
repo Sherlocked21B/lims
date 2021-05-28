@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 //comment test
 
 const testRequestChildSchema = new mongoose.Schema({
@@ -6,7 +6,7 @@ const testRequestChildSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	testParameters: [String],
+	testParameters: [],
 });
 
 module.exports = testRequestChildSchema;
