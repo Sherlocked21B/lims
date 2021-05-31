@@ -19,6 +19,8 @@ router.post("/add", (req, res) => {
 		means,
 		sampleType,
 		toTest,
+		paymentDone,
+		animalName,
 	} = req.body;
 
 	const newTestRequest = new TestRequest({
@@ -29,11 +31,13 @@ router.post("/add", (req, res) => {
 		means,
 		sampleType,
 		toTest,
+		paymentDone,
+		animalName,
 	});
 
 	newTestRequest
 		.save()
-		.then(() => res.json("TestRequest added"))
+		.then((result) => res.json(result))
 		.catch((err) =>
 			res.status(400).json({ message: "Error occured", error: err }),
 		);

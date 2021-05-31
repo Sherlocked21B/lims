@@ -10,6 +10,10 @@ const testRequestSchema = mongoose.Schema({
 	sampleType: [],
 	toTest: [TestRequestChild],
 	paymentDone: { type: Boolean, default: false },
+	animalName: {
+		type: String,
+		required: true,
+	},
 });
 
 module.exports = mongoose.model("TestRequest", testRequestSchema);
