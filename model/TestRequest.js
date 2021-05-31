@@ -9,6 +9,7 @@ const testRequestSchema = mongoose.Schema({
 	means: { type: "String", required: true },
 	sampleType: [],
 	toTest: [TestRequestChild],
+	paymentDone: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("TestRequest", testRequestSchema);
