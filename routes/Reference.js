@@ -24,7 +24,7 @@ router.post('/add', (req, res) => {
 
 	newReference
 		.save()
-		.then(() => res.json('Reference added'))
+		.then((result) => res.json(result))
 		.catch((err) =>
 			res.status(400).json({ message: 'Error occured', error: err })
 		);
