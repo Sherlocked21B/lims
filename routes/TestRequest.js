@@ -58,12 +58,17 @@ router.get("/find/:id", (req, res) => {
 });
 
 router.put("/update/:id", (req, res) => {
-	TestRequest.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
-		if (err) {
-			return res.status(400).json({ message: "Error occured", error: err });
-		}
-		res.json(doc);
-	});
+	TestRequest.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true },
+		(err, doc) => {
+			if (err) {
+				return res.status(400).json({ message: "Error occured", error: err });
+			}
+			res.json(doc);
+		},
+	);
 });
 
 router.delete("/delete/:id", (req, res) => {
