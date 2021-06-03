@@ -20,7 +20,7 @@ router.post("/add", (req, res) => {
 
 	newResult
 		.save()
-		.then(() => res.json("Result added"))
+		.then((result) => res.json(result))
 		.catch((err) => res.status(400).json("Error:" + err));
 });
 
