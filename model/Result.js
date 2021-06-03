@@ -1,33 +1,33 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const resultSchema = new mongoose.Schema({
 	result: [
-		{
-			parameters: {
-				type: String,
-				required: true,
-			},
-			units: {
-				type: String,
-				required: true,
-			},
-			value: {
-				type: String,
-				required: true,
-			},
-			referenceRange: {
-				type: String,
-				required: true,
-			},
-			remarks: {
-				type: String,
-				default: "",
-			},
-		},
+		// {
+		// 	parameters: {
+		// 		type: String,
+		// 		required: true,
+		// 	},
+		// 	units: {
+		// 		type: String,
+		// 		required: true,
+		// 	},
+		// 	value: {
+		// 		type: String,
+		// 		required: true,
+		// 	},
+		// 	referenceRange: {
+		// 		type: String,
+		// 		required: true,
+		// 	},
+		// 	remarks: {
+		// 		type: String,
+		// 		default: "",
+		// 	},
+		// },
 	],
 	sampleId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "Sample",
+		ref: 'Sample',
 		required: true,
 	},
 	Remarks: {
@@ -36,4 +36,4 @@ const resultSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("Result", resultSchema);
+module.exports = mongoose.model('Result', resultSchema);
