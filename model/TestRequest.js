@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const TestRequestChild = require("./TestRequestChild");
+const mongoose = require('mongoose');
+const TestRequestChild = require('./TestRequestChild');
 
 const testRequestSchema = mongoose.Schema({
-	customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
+	customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
 	customerName: { type: String, required: true },
-	sampleId: { type: mongoose.Schema.Types.ObjectId, ref: "Sample" },
+	sampleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Sample' },
 	testFee: { type: Number, required: true },
-	means: { type: "String", required: true },
+	means: { type: 'String', required: true },
 	sampleType: [],
 	toTest: [TestRequestChild],
 	paymentDone: { type: Boolean, default: false },
@@ -16,4 +16,4 @@ const testRequestSchema = mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("TestRequest", testRequestSchema);
+module.exports = mongoose.model('TestRequest', testRequestSchema);
