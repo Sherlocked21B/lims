@@ -17,6 +17,7 @@ const usedReagent = require('./routes/usedReagent');
 const equipmentRoute = require('./routes/Equipment');
 const testRequestRoute = require('./routes/TestRequest');
 const referenceRoute = require('./routes/Reference');
+const statementRoute = require('./routes/Statement');
 
 //milldleware imports
 const isStaff = require('./middlewares/isStaff');
@@ -57,5 +58,6 @@ app.use('/usedReagent', isStaff, usedReagent);
 app.use('/equipment', isStafforAccountant, equipmentRoute);
 app.use('/testRequest', isStaff, testRequestRoute);
 app.use('/animal', isStaff, animalRoute);
+app.use('/statement', isStaff, statementRoute);
 
 app.listen(5000, () => console.log('server has started'));
