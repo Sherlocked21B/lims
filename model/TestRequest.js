@@ -9,7 +9,6 @@ const testRequestSchema = mongoose.Schema({
 	means: { type: 'String', required: true },
 	sampleType: [],
 	toTest: [TestRequestChild],
-	paymentDone: { type: Boolean, default: false },
 	animalName: {
 		type: String,
 		required: true,
