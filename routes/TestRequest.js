@@ -19,7 +19,6 @@ router.post("/add", (req, res) => {
 		means,
 		sampleType,
 		toTest,
-		paymentDone,
 		animalName,
 	} = req.body;
 
@@ -31,7 +30,6 @@ router.post("/add", (req, res) => {
 		means,
 		sampleType,
 		toTest,
-		paymentDone,
 		animalName,
 	});
 

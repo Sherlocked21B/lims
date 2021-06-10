@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const statementSchema = new mongoose.Schema(
 	{
@@ -16,6 +16,6 @@ const statementSchema = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-	}
+	},
 );
-module.exports = mongoose.model('Statement', statementSchema);
+module.exports = mongoose.model("Statement", statementSchema);

@@ -1,19 +1,20 @@
-const express = require('express');
+const express = require("express");
 router = express.Router();
 
-const Statement = require('../model/Statement');
+const Statement = require("../model/Statement");
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
 	Statement.find()
 		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.post('/add', (req, res) => {
-	const { customerName, petName, sampleNo, amount } = req.body;
+router.post("/add", (req, res) => {
+	const { customerName, petName, sampleId, sampleNo, amount } = req.body;
 
 	const newStatement = new Statement({
 		customerName,
+		sampleId,
 		petName,
 		sampleNo,
 		amount,
@@ -22,16 +23,16 @@ router.post('/add', (req, res) => {
 	newStatement
 		.save()
 		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+		.catch((err) => res.status(400).json("Error:" + err));
 });
-router.get('/sample/', (req, res) => {
+router.get("/sample/", (req, res) => {
 	let sampleNo = req.query.sampleNo;
 	Statement.find({ sampleNo: sampleNo })
 		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.get('/find', (req, res) => {
+router.get("/find", (req, res) => {
 	let customer = req.query.customerName;
 	let pet = req.query.petName;
 	let startDate = req.query.startDate;
@@ -57,16 +58,16 @@ router.get('/find', (req, res) => {
 		{ sort: [['createdAt', 'asc']] }
 	)
 		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
 	Statement.findById(req.params.id)
 		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
-router.put('/update/:id', (req, res) => {
+router.put("/update/:id", (req, res) => {
 	Statement.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
 		if (err) {
 			return res.status(400).json({ message: err });
@@ -75,10 +76,10 @@ router.put('/update/:id', (req, res) => {
 	});
 });
 
-router.delete('/delete/:id', (req, res) => {
+router.delete("/delete/:id", (req, res) => {
 	Statement.findByIdAndDelete(req.params.id)
 		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+		.catch((err) => res.status(400).json("Error:" + err));
 });
 
 module.exports = router;
