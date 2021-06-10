@@ -39,20 +39,23 @@ router.get('/find', (req, res) => {
 
 	let option = customer
 		? pet
-			? { petName: pet, customerName: customer }
+			? { petName: new RegExp(`^${pet}$`, 'i'), customerName: customer }
 			: { customerName: customer }
 		: pet
-		? { petName: pet }
+		? { petName: new RegExp(`^${pet}$`, 'i') }
 		: {};
 
 	let end = new Date(endDate);
-	Statement.find({
-		...option,
-		createdAt: {
-			$gte: new Date(startDate).toISOString(),
-			$lt: new Date(end.setDate(end.getDate() + 1)).toISOString(),
+	Statement.find(
+		{
+			...option,
+			createdAt: {
+				$gte: new Date(startDate).toISOString(),
+				$lt: new Date(end.setDate(end.getDate() + 1)).toISOString(),
+			},
 		},
-	})
+		{ sort: [['createdAt', 'asc']] }
+	)
 		.then((result) => res.json(result))
 		.catch((err) => res.status(400).json('Error:' + err));
 });
