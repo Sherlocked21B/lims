@@ -12,6 +12,7 @@ const statementSchema = new mongoose.Schema(
 		},
 		sampleNo: { type: String, required: true },
 		amount: { type: Number, required: true },
+		sampleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Sample' },
 	},
 	{
 		timestamps: true,
