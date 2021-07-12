@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const statementSchema = new mongoose.Schema(
 	{
@@ -12,9 +12,10 @@ const statementSchema = new mongoose.Schema(
 		},
 		sampleNo: { type: String, required: true },
 		amount: { type: Number, required: true },
+		sampleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Sample' },
 	},
 	{
 		timestamps: true,
-	},
+	}
 );
-module.exports = mongoose.model("Statement", statementSchema);
+module.exports = mongoose.model('Statement', statementSchema);
