@@ -47,7 +47,7 @@ router.post("/add", isStaff, (req, res) => {
 		animal,
 		customerId,
 		breed,
-		age,
+		petOwner,
 		gender,
 		petName,
 	} = req.body;
@@ -61,7 +61,7 @@ router.post("/add", isStaff, (req, res) => {
 		animal,
 		customerId,
 		breed,
-		age,
+		petOwner,
 		gender,
 		petName,
 	});

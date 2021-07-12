@@ -10,6 +10,7 @@ const statementSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		sampleId: { type: mongoose.Schema.Types.ObjectId, ref: "Sample" },
 		sampleNo: { type: String, required: true },
 		amount: { type: Number, required: true },
 		sampleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Sample' },
