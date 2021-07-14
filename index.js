@@ -7,6 +7,7 @@ donenv.config();
 
 //importing the routes
 const animalRoute = require("./routes/animal");
+const methodRoute = require("./routes/method");
 const authRoute = require("./routes/auth");
 const customerRoute = require("./routes/Customer");
 const reagentRoute = require("./routes/Reagent");
@@ -58,6 +59,7 @@ app.use("/usedReagent", isStaff, usedReagent);
 app.use("/equipment", isStafforAccountant, equipmentRoute);
 app.use("/testRequest", isStaff, testRequestRoute);
 app.use("/animal", isStaff, animalRoute);
+app.use("/method", isStaff, methodRoute);
 app.use("/statement", isStafforAccountant, statementRoute);
 
 app.listen(5000, () => console.log("server has started"));

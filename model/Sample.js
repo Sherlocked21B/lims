@@ -37,9 +37,9 @@ const sampleSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		age: {
+		petOwner: {
 			type: Number,
-			required: true,
+			default:"",
 		},
 		gender: {
 			type: String,
