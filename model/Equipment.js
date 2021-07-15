@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const mongoosePaginate = require("mongoose-paginate-v2");
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const equipmentSchema = new mongoose.Schema(
 	{
@@ -15,10 +15,18 @@ const equipmentSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		minimum: {
+			type: Number,
+			required: true,
+		},
+		repair: {
+			type: Boolean,
+			default: false,
+		},
 	},
-	{ timestamps: { createdAt: "createdAt", updatedAt: false } },
+	{ timestamps: { createdAt: 'createdAt', updatedAt: false } }
 );
 equipmentSchema.plugin(mongoosePaginate);
-const Model = mongoose.model("Equipment", equipmentSchema);
+const Model = mongoose.model('Equipment', equipmentSchema);
 
 module.exports = { equipmentSchema: equipmentSchema, Equipment: Model };
