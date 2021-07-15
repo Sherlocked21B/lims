@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
+const { string } = require("@hapi/joi");
+const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const sampleSchema = new mongoose.Schema(
 	{
@@ -14,7 +15,7 @@ const sampleSchema = new mongoose.Schema(
 		created_at: {
 			type: Date,
 			default: new Date(
-				new Date().toISOString().substring(0, 10)
+				new Date().toISOString().substring(0, 10),
 			).toISOString(),
 		},
 		sampleSubmittedBy: {
@@ -38,8 +39,8 @@ const sampleSchema = new mongoose.Schema(
 			required: true,
 		},
 		petOwner: {
-			type: Number,
-			default:"",
+			type: String,
+			default: "",
 		},
 		gender: {
 			type: String,
@@ -53,11 +54,15 @@ const sampleSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
+		Balance: {
+			type: Number,
+			default: 1,
+		},
+		customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
 	},
-	{ timestamps: true }
+	{ timestamps: true },
 );
 
 sampleSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('Sample', sampleSchema);
+module.exports = mongoose.model("Sample", sampleSchema);
