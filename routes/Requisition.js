@@ -4,9 +4,20 @@ router = express.Router();
 const Requisition = require('../model/Requisition');
 
 router.get('/', (req, res) => {
-	Requisition.find()
-		.then((result) => res.json(result))
-		.catch((err) => res.status(400).json('Error:' + err));
+	let page = req.query.page;
+	let limit = req.query.limit;
+
+	const options = {
+		offset: page ? page * limit : 0,
+		limit: limit ? limit : 20,
+	};
+
+	Requisition.paginate({}, options, (err, result) => {
+		if (err) {
+			return res.status(400).json({ message: err });
+		}
+		res.json({ rows: result.docs, total: result.totalDocs, page: result.page });
+	});
 });
 
 router.post('/add', (req, res) => {
