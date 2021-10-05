@@ -10,15 +10,12 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-	const { reagentName, unit, volume, sampleNo, sampleId, reagentId } = req.body;
+	const { sampleNo, sampleId, usedReagent } = req.body;
 
 	const newUsedReagent = new UsedReagent({
-		reagentName,
-		unit,
-		volume,
 		sampleNo,
 		sampleId,
-		reagentId,
+		usedReagent,
 	});
 
 	newUsedReagent
