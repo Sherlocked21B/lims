@@ -66,4 +66,4 @@ app.use("/method", isStaff, methodRoute);
 app.use("/statement", isStafforAccountant, statementRoute);
 app.use("/requisition", isStaff, requisitionRoute);
 
-app.listen(5000, () => console.log("server has started"));
+app.listen(process.env.PORT, () => console.log("server has started"));
